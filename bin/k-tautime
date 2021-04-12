@@ -1,0 +1,24 @@
+#!/bin/bash
+# Copyright (C) 2020-2021 Mo Zhou <cdluminate@gmail.com>
+# Released under the Apache-2.0 License.
+
+KS=( 5 10 15 20 25 30 35 40 )
+case $1 in
+	fashion)
+		for k in ${KS[@]}; do
+			python3 -m cProfile -s cumulative BlackOA.py \
+				-M Fashion -D cuda -A SPSA -e .0156862 -N 999 -k ${k} \
+				-c 50 -P 1 | tee > fashion_${k}.log
+		done
+		;;
+	sop)
+		for k in ${KS[@]}; do
+			python3 -m cProfile -s cumulative BlackOA.py \
+				-M Sop -D cuda -A SPSA -e .0156862 -N 999 -k ${k} \
+				-c 50 -P 1 | tee > sop_${k}.log
+		done
+		;;
+	*)
+		echo illegal
+		;;
+esac

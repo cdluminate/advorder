@@ -1,0 +1,18 @@
+#!/bin/bash -e
+# Copyright (C) 2020-2021 Mo Zhou <cdluminate@gmail.com>
+# Released under the Apache-2.0 License.
+
+set -x
+Usage() {
+	echo K C E ?
+}
+if test -z "$1"; then Usage; exit 1; fi
+if test -z "$2"; then Usage; exit 1; fi
+if test -z "$3"; then Usage; exit 1; fi
+python3 BlackOA.py \
+	-M Fashion -D cuda -A SPSA \
+	-e $(dc << EOF
+7 k $3 255 / p
+EOF
+) \
+	-N 10000 -k "$1" -c "$2" -P 1

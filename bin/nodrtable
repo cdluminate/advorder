@@ -1,0 +1,132 @@
+#!/bin/bash
+# Copyright (C) 2020-2021 Mo Zhou <cdluminate@gmail.com>
+# Released under the Apache-2.0 License.
+
+set -x
+unset $TMUX
+C="CUDA_VISIBLE_DEVICES"
+SH="bash"
+tmux new-session -s "nodrtable" "gpustat -i1"\; split-window "htop"\;\
+	new-window -n "WO.DR.rand.5.-1.2"    "${C}=0 NO_DR=1 ${SH} bin/randsearch 5  -1 2 ; sh"\;\
+	new-window -n "WO.DR.rand.5.-1.4"    "${C}=1 NO_DR=1 ${SH} bin/randsearch 5  -1 4 ; sh"\;\
+	new-window -n "WO.DR.rand.5.-1.8"    "${C}=2 NO_DR=1 ${SH} bin/randsearch 5  -1 8 ; sh"\;\
+	new-window -n "WO.DR.rand.5.-1.16"   "${C}=3 NO_DR=1 ${SH} bin/randsearch 5  -1 16; sh"\;\
+	new-window -n "WO.DR.rand.5.50.2"    "${C}=0 NO_DR=1 ${SH} bin/randsearch 5  50 2 ; sh"\;\
+	new-window -n "WO.DR.rand.5.50.4"    "${C}=1 NO_DR=1 ${SH} bin/randsearch 5  50 4 ; sh"\;\
+	new-window -n "WO.DR.rand.5.50.8"    "${C}=2 NO_DR=1 ${SH} bin/randsearch 5  50 8 ; sh"\;\
+	new-window -n "WO.DR.rand.5.50.16"   "${C}=3 NO_DR=1 ${SH} bin/randsearch 5  50 16; sh"\;\
+	new-window -n "WO.DR.rand.5.5.2"     "${C}=0 NO_DR=1 ${SH} bin/randsearch 5  5  2 ; sh"\;\
+	new-window -n "WO.DR.rand.5.5.4"     "${C}=1 NO_DR=1 ${SH} bin/randsearch 5  5  4 ; sh"\;\
+	new-window -n "WO.DR.rand.5.5.8"     "${C}=2 NO_DR=1 ${SH} bin/randsearch 5  5  8 ; sh"\;\
+	new-window -n "WO.DR.rand.5.5.16"    "${C}=3 NO_DR=1 ${SH} bin/randsearch 5  5  16; sh"\;\
+	new-window -n "WO.DR.batk.5.-1.2"    "${C}=0 NO_DR=1 ${SH} bin/batk 5  -1 2 ; sh"\;\
+	new-window -n "WO.DR.batk.5.-1.4"    "${C}=1 NO_DR=1 ${SH} bin/batk 5  -1 4 ; sh"\;\
+	new-window -n "WO.DR.batk.5.-1.8"    "${C}=2 NO_DR=1 ${SH} bin/batk 5  -1 8 ; sh"\;\
+	new-window -n "WO.DR.batk.5.-1.16"   "${C}=3 NO_DR=1 ${SH} bin/batk 5  -1 16; sh"\;\
+	new-window -n "WO.DR.batk.5.50.2"    "${C}=0 NO_DR=1 ${SH} bin/batk 5  50 2 ; sh"\;\
+	new-window -n "WO.DR.batk.5.50.4"    "${C}=1 NO_DR=1 ${SH} bin/batk 5  50 4 ; sh"\;\
+	new-window -n "WO.DR.batk.5.50.8"    "${C}=2 NO_DR=1 ${SH} bin/batk 5  50 8 ; sh"\;\
+	new-window -n "WO.DR.batk.5.50.16"   "${C}=3 NO_DR=1 ${SH} bin/batk 5  50 16; sh"\;\
+	new-window -n "WO.DR.batk.5.5.2"     "${C}=0 NO_DR=1 ${SH} bin/batk 5  5  2 ; sh"\;\
+	new-window -n "WO.DR.batk.5.5.4"     "${C}=1 NO_DR=1 ${SH} bin/batk 5  5  4 ; sh"\;\
+	new-window -n "WO.DR.batk.5.5.8"     "${C}=2 NO_DR=1 ${SH} bin/batk 5  5  8 ; sh"\;\
+	new-window -n "WO.DR.batk.5.5.16"    "${C}=3 NO_DR=1 ${SH} bin/batk 5  5  16; sh"\;\
+	new-window -n "WO.DR.pso.5.-1.2"     "${C}=0 NO_DR=1 ${SH} bin/pso 5  -1 2 ; sh"\;\
+	new-window -n "WO.DR.pso.5.-1.4"     "${C}=1 NO_DR=1 ${SH} bin/pso 5  -1 4 ; sh"\;\
+	new-window -n "WO.DR.pso.5.-1.8"     "${C}=2 NO_DR=1 ${SH} bin/pso 5  -1 8 ; sh"\;\
+	new-window -n "WO.DR.pso.5.-1.16"    "${C}=3 NO_DR=1 ${SH} bin/pso 5  -1 16; sh"\;\
+	new-window -n "WO.DR.pso.5.50.2"     "${C}=0 NO_DR=1 ${SH} bin/pso 5  50 2 ; sh"\;\
+	new-window -n "WO.DR.pso.5.50.4"     "${C}=1 NO_DR=1 ${SH} bin/pso 5  50 4 ; sh"\;\
+	new-window -n "WO.DR.pso.5.50.8"     "${C}=2 NO_DR=1 ${SH} bin/pso 5  50 8 ; sh"\;\
+	new-window -n "WO.DR.pso.5.50.16"    "${C}=3 NO_DR=1 ${SH} bin/pso 5  50 16; sh"\;\
+	new-window -n "WO.DR.pso.5.5.2"      "${C}=0 NO_DR=1 ${SH} bin/pso 5  5  2 ; sh"\;\
+	new-window -n "WO.DR.pso.5.5.4"      "${C}=1 NO_DR=1 ${SH} bin/pso 5  5  4 ; sh"\;\
+	new-window -n "WO.DR.pso.5.5.8"      "${C}=2 NO_DR=1 ${SH} bin/pso 5  5  8 ; sh"\;\
+	new-window -n "WO.DR.pso.5.5.16"     "${C}=3 NO_DR=1 ${SH} bin/pso 5  5  16; sh"\;\
+	new-window -n "WO.DR.nes.5.-1.2"     "${C}=0 NO_DR=1 ${SH} bin/nes 5  -1 2 ; sh"\;\
+	new-window -n "WO.DR.nes.5.-1.4"     "${C}=1 NO_DR=1 ${SH} bin/nes 5  -1 4 ; sh"\;\
+	new-window -n "WO.DR.nes.5.-1.8"     "${C}=2 NO_DR=1 ${SH} bin/nes 5  -1 8 ; sh"\;\
+	new-window -n "WO.DR.nes.5.-1.16"    "${C}=3 NO_DR=1 ${SH} bin/nes 5  -1 16; sh"\;\
+	new-window -n "WO.DR.nes.5.50.2"     "${C}=0 NO_DR=1 ${SH} bin/nes 5  50 2 ; sh"\;\
+	new-window -n "WO.DR.nes.5.50.4"     "${C}=1 NO_DR=1 ${SH} bin/nes 5  50 4 ; sh"\;\
+	new-window -n "WO.DR.nes.5.50.8"     "${C}=2 NO_DR=1 ${SH} bin/nes 5  50 8 ; sh"\;\
+	new-window -n "WO.DR.nes.5.50.16"    "${C}=3 NO_DR=1 ${SH} bin/nes 5  50 16; sh"\;\
+	new-window -n "WO.DR.nes.5.5.2"      "${C}=0 NO_DR=1 ${SH} bin/nes 5  5  2 ; sh"\;\
+	new-window -n "WO.DR.nes.5.5.4"      "${C}=1 NO_DR=1 ${SH} bin/nes 5  5  4 ; sh"\;\
+	new-window -n "WO.DR.nes.5.5.8"      "${C}=2 NO_DR=1 ${SH} bin/nes 5  5  8 ; sh"\;\
+	new-window -n "WO.DR.nes.5.5.16"     "${C}=3 NO_DR=1 ${SH} bin/nes 5  5  16; sh"\;\
+	new-window -n "WO.DR.spsa.5.-1.2"    "${C}=0 NO_DR=1 ${SH} bin/spsa 5  -1 2 ; sh"\;\
+	new-window -n "WO.DR.spsa.5.-1.4"    "${C}=1 NO_DR=1 ${SH} bin/spsa 5  -1 4 ; sh"\;\
+	new-window -n "WO.DR.spsa.5.-1.8"    "${C}=2 NO_DR=1 ${SH} bin/spsa 5  -1 8 ; sh"\;\
+	new-window -n "WO.DR.spsa.5.-1.16"   "${C}=3 NO_DR=1 ${SH} bin/spsa 5  -1 16; sh"\;\
+	new-window -n "WO.DR.spsa.5.50.2"    "${C}=0 NO_DR=1 ${SH} bin/spsa 5  50 2 ; sh"\;\
+	new-window -n "WO.DR.spsa.5.50.4"    "${C}=1 NO_DR=1 ${SH} bin/spsa 5  50 4 ; sh"\;\
+	new-window -n "WO.DR.spsa.5.50.8"    "${C}=2 NO_DR=1 ${SH} bin/spsa 5  50 8 ; sh"\;\
+	new-window -n "WO.DR.spsa.5.50.16"   "${C}=3 NO_DR=1 ${SH} bin/spsa 5  50 16; sh"\;\
+	new-window -n "WO.DR.spsa.5.5.2"     "${C}=0 NO_DR=1 ${SH} bin/spsa 5  5  2 ; sh"\;\
+	new-window -n "WO.DR.spsa.5.5.4"     "${C}=1 NO_DR=1 ${SH} bin/spsa 5  5  4 ; sh"\;\
+	new-window -n "WO.DR.spsa.5.5.8"     "${C}=2 NO_DR=1 ${SH} bin/spsa 5  5  8 ; sh"\;\
+	new-window -n "WO.DR.spsa.5.5.16"    "${C}=3 NO_DR=1 ${SH} bin/spsa 5  5  16; sh"\;\
+	detach
+
+
+#	new-window -n "W.DR.rand.5.-1.2"     "${C}=0 NO_DR=0 ${SH} bin/randsearch 5  -1 2 ; sh"\;\
+#	new-window -n "W.DR.rand.5.-1.4"     "${C}=1 NO_DR=0 ${SH} bin/randsearch 5  -1 4 ; sh"\;\
+#	new-window -n "W.DR.rand.5.-1.8"     "${C}=2 NO_DR=0 ${SH} bin/randsearch 5  -1 8 ; sh"\;\
+#	new-window -n "W.DR.rand.5.-1.16"    "${C}=3 NO_DR=0 ${SH} bin/randsearch 5  -1 16; sh"\;\
+#	new-window -n "W.DR.rand.5.50.2"     "${C}=0 NO_DR=0 ${SH} bin/randsearch 5  50 2 ; sh"\;\
+#	new-window -n "W.DR.rand.5.50.4"     "${C}=1 NO_DR=0 ${SH} bin/randsearch 5  50 4 ; sh"\;\
+#	new-window -n "W.DR.rand.5.50.8"     "${C}=2 NO_DR=0 ${SH} bin/randsearch 5  50 8 ; sh"\;\
+#	new-window -n "W.DR.rand.5.50.16"    "${C}=3 NO_DR=0 ${SH} bin/randsearch 5  50 16; sh"\;\
+#	new-window -n "W.DR.rand.5.5.2"      "${C}=0 NO_DR=0 ${SH} bin/randsearch 5  5  2 ; sh"\;\
+#	new-window -n "W.DR.rand.5.5.4"      "${C}=1 NO_DR=0 ${SH} bin/randsearch 5  5  4 ; sh"\;\
+#	new-window -n "W.DR.rand.5.5.8"      "${C}=2 NO_DR=0 ${SH} bin/randsearch 5  5  8 ; sh"\;\
+#	new-window -n "W.DR.rand.5.5.16"     "${C}=3 NO_DR=0 ${SH} bin/randsearch 5  5  16; sh"\;\
+#	new-window -n "W.DR.batk.5.-1.2"     "${C}=0 NO_DR=0 ${SH} bin/batk 5  -1 2 ; sh"\;\
+#	new-window -n "W.DR.batk.5.-1.4"     "${C}=1 NO_DR=0 ${SH} bin/batk 5  -1 4 ; sh"\;\
+#	new-window -n "W.DR.batk.5.-1.8"     "${C}=2 NO_DR=0 ${SH} bin/batk 5  -1 8 ; sh"\;\
+#	new-window -n "W.DR.batk.5.-1.16"    "${C}=3 NO_DR=0 ${SH} bin/batk 5  -1 16; sh"\;\
+#	new-window -n "W.DR.batk.5.50.2"     "${C}=0 NO_DR=0 ${SH} bin/batk 5  50 2 ; sh"\;\
+#	new-window -n "W.DR.batk.5.50.4"     "${C}=1 NO_DR=0 ${SH} bin/batk 5  50 4 ; sh"\;\
+#	new-window -n "W.DR.batk.5.50.8"     "${C}=2 NO_DR=0 ${SH} bin/batk 5  50 8 ; sh"\;\
+#	new-window -n "W.DR.batk.5.50.16"    "${C}=3 NO_DR=0 ${SH} bin/batk 5  50 16; sh"\;\
+#	new-window -n "W.DR.batk.5.5.2"      "${C}=0 NO_DR=0 ${SH} bin/batk 5  5  2 ; sh"\;\
+#	new-window -n "W.DR.batk.5.5.4"      "${C}=1 NO_DR=0 ${SH} bin/batk 5  5  4 ; sh"\;\
+#	new-window -n "W.DR.batk.5.5.8"      "${C}=2 NO_DR=0 ${SH} bin/batk 5  5  8 ; sh"\;\
+#	new-window -n "W.DR.batk.5.5.16"     "${C}=3 NO_DR=0 ${SH} bin/batk 5  5  16; sh"\;\
+#	new-window -n "W.DR.pso.5.-1.2"      "${C}=0 NO_DR=0 ${SH} bin/pso 5  -1 2 ; sh"\;\
+#	new-window -n "W.DR.pso.5.-1.4"      "${C}=1 NO_DR=0 ${SH} bin/pso 5  -1 4 ; sh"\;\
+#	new-window -n "W.DR.pso.5.-1.8"      "${C}=2 NO_DR=0 ${SH} bin/pso 5  -1 8 ; sh"\;\
+#	new-window -n "W.DR.pso.5.-1.16"     "${C}=3 NO_DR=0 ${SH} bin/pso 5  -1 16; sh"\;\
+#	new-window -n "W.DR.pso.5.50.2"      "${C}=0 NO_DR=0 ${SH} bin/pso 5  50 2 ; sh"\;\
+#	new-window -n "W.DR.pso.5.50.4"      "${C}=1 NO_DR=0 ${SH} bin/pso 5  50 4 ; sh"\;\
+#	new-window -n "W.DR.pso.5.50.8"      "${C}=2 NO_DR=0 ${SH} bin/pso 5  50 8 ; sh"\;\
+#	new-window -n "W.DR.pso.5.50.16"     "${C}=3 NO_DR=0 ${SH} bin/pso 5  50 16; sh"\;\
+#	new-window -n "W.DR.pso.5.5.2"       "${C}=0 NO_DR=0 ${SH} bin/pso 5  5  2 ; sh"\;\
+#	new-window -n "W.DR.pso.5.5.4"       "${C}=1 NO_DR=0 ${SH} bin/pso 5  5  4 ; sh"\;\
+#	new-window -n "W.DR.pso.5.5.8"       "${C}=2 NO_DR=0 ${SH} bin/pso 5  5  8 ; sh"\;\
+#	new-window -n "W.DR.pso.5.5.16"      "${C}=3 NO_DR=0 ${SH} bin/pso 5  5  16; sh"\;\
+#	new-window -n "W.DR.nes.5.-1.2"      "${C}=0 NO_DR=0 ${SH} bin/nes 5  -1 2 ; sh"\;\
+#	new-window -n "W.DR.nes.5.-1.4"      "${C}=1 NO_DR=0 ${SH} bin/nes 5  -1 4 ; sh"\;\
+#	new-window -n "W.DR.nes.5.-1.8"      "${C}=2 NO_DR=0 ${SH} bin/nes 5  -1 8 ; sh"\;\
+#	new-window -n "W.DR.nes.5.-1.16"     "${C}=3 NO_DR=0 ${SH} bin/nes 5  -1 16; sh"\;\
+#	new-window -n "W.DR.nes.5.50.2"      "${C}=0 NO_DR=0 ${SH} bin/nes 5  50 2 ; sh"\;\
+#	new-window -n "W.DR.nes.5.50.4"      "${C}=1 NO_DR=0 ${SH} bin/nes 5  50 4 ; sh"\;\
+#	new-window -n "W.DR.nes.5.50.8"      "${C}=2 NO_DR=0 ${SH} bin/nes 5  50 8 ; sh"\;\
+#	new-window -n "W.DR.nes.5.50.16"     "${C}=3 NO_DR=0 ${SH} bin/nes 5  50 16; sh"\;\
+#	new-window -n "W.DR.nes.5.5.2"       "${C}=0 NO_DR=0 ${SH} bin/nes 5  5  2 ; sh"\;\
+#	new-window -n "W.DR.nes.5.5.4"       "${C}=1 NO_DR=0 ${SH} bin/nes 5  5  4 ; sh"\;\
+#	new-window -n "W.DR.nes.5.5.8"       "${C}=2 NO_DR=0 ${SH} bin/nes 5  5  8 ; sh"\;\
+#	new-window -n "W.DR.nes.5.5.16"      "${C}=3 NO_DR=0 ${SH} bin/nes 5  5  16; sh"\;\
+#	new-window -n "W.DR.spsa.5.-1.2"     "${C}=0 NO_DR=0 ${SH} bin/spsa 5  -1 2 ; sh"\;\
+#	new-window -n "W.DR.spsa.5.-1.4"     "${C}=1 NO_DR=0 ${SH} bin/spsa 5  -1 4 ; sh"\;\
+#	new-window -n "W.DR.spsa.5.-1.8"     "${C}=2 NO_DR=0 ${SH} bin/spsa 5  -1 8 ; sh"\;\
+#	new-window -n "W.DR.spsa.5.-1.16"    "${C}=3 NO_DR=0 ${SH} bin/spsa 5  -1 16; sh"\;\
+#	new-window -n "W.DR.spsa.5.50.2"     "${C}=0 NO_DR=0 ${SH} bin/spsa 5  50 2 ; sh"\;\
+#	new-window -n "W.DR.spsa.5.50.4"     "${C}=1 NO_DR=0 ${SH} bin/spsa 5  50 4 ; sh"\;\
+#	new-window -n "W.DR.spsa.5.50.8"     "${C}=2 NO_DR=0 ${SH} bin/spsa 5  50 8 ; sh"\;\
+#	new-window -n "W.DR.spsa.5.50.16"    "${C}=3 NO_DR=0 ${SH} bin/spsa 5  50 16; sh"\;\
+#	new-window -n "W.DR.spsa.5.5.2"      "${C}=0 NO_DR=0 ${SH} bin/spsa 5  5  2 ; sh"\;\
+#	new-window -n "W.DR.spsa.5.5.4"      "${C}=1 NO_DR=0 ${SH} bin/spsa 5  5  4 ; sh"\;\
+#	new-window -n "W.DR.spsa.5.5.8"      "${C}=2 NO_DR=0 ${SH} bin/spsa 5  5  8 ; sh"\;\
+#	new-window -n "W.DR.spsa.5.5.16"     "${C}=3 NO_DR=0 ${SH} bin/spsa 5  5  16; sh"\;\

@@ -1,0 +1,9 @@
+# Copyright (C) 2020-2021 Mo Zhou <cdluminate@gmail.com>
+# Released under the Apache-2.0 License.
+
+./BlackOA.py -M Fashion -D cuda -k5 -ARandSearch -e0.000 -N20
+./BlackOA.py -M Fashion -D cuda -k5 -APSO        -e0.000 -N20
+./BlackOA.py -M Fashion -D cuda -k5 -ANES        -e0.000 -N20
+./BlackOA.py -M Fashion -D cuda -k5 -ANES        -e0.000 -N20
+./BlackOA.py -M Fashion -D cuda -k5 -ABatk       -e0.000 -N20
+

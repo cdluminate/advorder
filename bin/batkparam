@@ -1,0 +1,27 @@
+#!/bin/bash
+# Copyright (C) 2020-2021 Mo Zhou <cdluminate@gmail.com>
+# Released under the Apache-2.0 License.
+
+set -x
+unset $TMUX
+C="CUDA_VISIBLE_DEVICES"
+SH="bash"
+SC="bin/batk"
+export BA_NPOP=50
+export BA_LR=3.0
+
+tmux new-session -s "batkparam" "gpustat -i1"\; split-window "htop"\;\
+	new-window -n "BA_LR=0.0  " "${C}=0 BA_LR=0.0      ${SH} ${SC} 5 -1 4 ; sh"\;\
+	new-window -n "BA_LR=0.1  " "${C}=0 BA_LR=0.1      ${SH} ${SC} 5 -1 4 ; sh"\;\
+	new-window -n "BA_LR=0.5  " "${C}=0 BA_LR=0.5      ${SH} ${SC} 5 -1 4 ; sh"\;\
+	new-window -n "BA_LR=1.0  " "${C}=0 BA_LR=1.0      ${SH} ${SC} 5 -1 4 ; sh"\;\
+	new-window -n "BA_LR=2.0  " "${C}=1 BA_LR=2.0      ${SH} ${SC} 5 -1 4 ; sh"\;\
+	new-window -n "BA_LR=3.0  " "${C}=1 BA_LR=3.0      ${SH} ${SC} 5 -1 4 ; sh"\;\
+	new-window -n "BA_LR=4.0  " "${C}=1 BA_LR=4.0      ${SH} ${SC} 5 -1 4 ; sh"\;\
+	new-window -n "BA_LR=5.0  " "${C}=2 BA_LR=5.0      ${SH} ${SC} 5 -1 4 ; sh"\;\
+	new-window -n "BA_NPOP=25 " "${C}=2 BA_NPOP=25     ${SH} ${SC} 5 -1 4 ; sh"\;\
+	new-window -n "BA_NPOP=40 " "${C}=2 BA_NPOP=40     ${SH} ${SC} 5 -1 4 ; sh"\;\
+	new-window -n "BA_NPOP=50 " "${C}=3 BA_NPOP=50     ${SH} ${SC} 5 -1 4 ; sh"\;\
+	new-window -n "BA_NPOP=100" "${C}=3 BA_NPOP=100    ${SH} ${SC} 5 -1 4 ; sh"\;\
+	new-window -n "BA_NPOP=200" "${C}=3 BA_NPOP=200    ${SH} ${SC} 5 -1 4 ; sh"\;\
+	detach

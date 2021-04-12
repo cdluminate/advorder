@@ -1,0 +1,32 @@
+#!/bin/bash
+# Copyright (C) 2020-2021 Mo Zhou <cdluminate@gmail.com>
+# Released under the Apache-2.0 License.
+
+set -x
+unset $TMUX
+C="CUDA_VISIBLE_DEVICES"
+SH="bash"
+SC="bin/spsa"
+export SS_NPOP=50
+export SS_LR=2.0
+export SS_SIGMA=2.0
+export SS_MOM=0.0
+
+tmux new-session -s "spsaparam" "gpustat -i1"\; split-window "htop"\;\
+	new-window -n "SS_LR=1.0   " "${C}=3 SS_LR=1.0      ${SH} ${SC} 5 -1 4 ; sh"\;\
+	new-window -n "SS_LR=2.0   " "${C}=3 SS_LR=2.0      ${SH} ${SC} 5 -1 4 ; sh"\;\
+	new-window -n "SS_LR=3.0   " "${C}=3 SS_LR=3.0      ${SH} ${SC} 5 -1 4 ; sh"\;\
+	new-window -n "SS_LR=4.0   " "${C}=3 SS_LR=4.0      ${SH} ${SC} 5 -1 4 ; sh"\;\
+	new-window -n "SS_SIGMA=1.0" "${C}=1 SS_SIGMA=1.0   ${SH} ${SC} 5 -1 4 ; sh"\;\
+	new-window -n "SS_SIGMA=2.0" "${C}=1 SS_SIGMA=2.0   ${SH} ${SC} 5 -1 4 ; sh"\;\
+	new-window -n "SS_SIGMA=3.0" "${C}=1 SS_SIGMA=3.0   ${SH} ${SC} 5 -1 4 ; sh"\;\
+	new-window -n "SS_SIGMA=4.0" "${C}=1 SS_SIGMA=4.0   ${SH} ${SC} 5 -1 4 ; sh"\;\
+	new-window -n "SS_NPOP=25  " "${C}=2 SS_NPOP=25     ${SH} ${SC} 5 -1 4 ; sh"\;\
+	new-window -n "SS_NPOP=40  " "${C}=2 SS_NPOP=40     ${SH} ${SC} 5 -1 4 ; sh"\;\
+	new-window -n "SS_NPOP=50  " "${C}=2 SS_NPOP=50     ${SH} ${SC} 5 -1 4 ; sh"\;\
+	new-window -n "SS_NPOP=100 " "${C}=2 SS_NPOP=100    ${SH} ${SC} 5 -1 4 ; sh"\;\
+	new-window -n "SS_MOM=0.0  " "${C}=3 SS_MOM=0.0     ${SH} ${SC} 5 -1 4 ; sh"\;\
+	new-window -n "SS_MOM=0.1  " "${C}=3 SS_MOM=0.1     ${SH} ${SC} 5 -1 4 ; sh"\;\
+	new-window -n "SS_MOM=0.5  " "${C}=3 SS_MOM=0.5     ${SH} ${SC} 5 -1 4 ; sh"\;\
+	new-window -n "SS_MOM=0.9  " "${C}=3 SS_MOM=0.9     ${SH} ${SC} 5 -1 4 ; sh"\;\
+	detach

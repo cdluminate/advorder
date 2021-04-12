@@ -1,0 +1,41 @@
+#!/bin/sh
+# Copyright (C) 2020-2021 Mo Zhou <cdluminate@gmail.com>
+# Released under the Apache-2.0 License.
+
+CUDA=CUDA_VISIBLE_DEVICES
+e2=$(python3 -c "print(2./255.)")
+e4=$(python3 -c "print(4./255.)")
+e8=$(python3 -c "print(8./255.)")
+e16=$(python3 -c "print(16./255.)")
+
+# table mnist
+tmux new-session -s "wtable" "gpustat -i1"\; split-window "htop"\;\
+	new-window -n "K5,E2 " "${CUDA}=0 ./Attack.py -D cuda -M faC_c2f2 -A SPO:PGD-M5 -v -e ${e2}; sh"\;\
+	new-window -n "K5,E4 " "${CUDA}=1 ./Attack.py -D cuda -M faC_c2f2 -A SPO:PGD-M5 -v -e ${e4}; sh"\;\
+	new-window -n "K5,E7 " "${CUDA}=2 ./Attack.py -D cuda -M faC_c2f2 -A SPO:PGD-M5 -v -e ${e8}; sh"\;\
+	new-window -n "K5,E16" "${CUDA}=3 ./Attack.py -D cuda -M faC_c2f2 -A SPO:PGD-M5 -v -e ${e16}; sh"\;\
+	new-window -n "K10,E2 " "${CUDA}=0 ./Attack.py -D cuda -M faC_c2f2 -A SPO:PGD-M10 -v -e ${e2}; sh"\;\
+	new-window -n "K10,E4 " "${CUDA}=1 ./Attack.py -D cuda -M faC_c2f2 -A SPO:PGD-M10 -v -e ${e4}; sh"\;\
+	new-window -n "K10,E7 " "${CUDA}=2 ./Attack.py -D cuda -M faC_c2f2 -A SPO:PGD-M10 -v -e ${e8}; sh"\;\
+	new-window -n "K10,E16" "${CUDA}=3 ./Attack.py -D cuda -M faC_c2f2 -A SPO:PGD-M10 -v -e ${e16}; sh"\;\
+	new-window -n "K25,E2 " "${CUDA}=0 ./Attack.py -D cuda -M faC_c2f2 -A SPO:PGD-M25 -v -e ${e2}; sh"\;\
+	new-window -n "K25,E4 " "${CUDA}=1 ./Attack.py -D cuda -M faC_c2f2 -A SPO:PGD-M25 -v -e ${e4}; sh"\;\
+	new-window -n "K25,E7 " "${CUDA}=2 ./Attack.py -D cuda -M faC_c2f2 -A SPO:PGD-M25 -v -e ${e8}; sh"\;\
+	new-window -n "K25,E16" "${CUDA}=3 ./Attack.py -D cuda -M faC_c2f2 -A SPO:PGD-M25 -v -e ${e16}; sh"\;\
+	detach
+
+# table sop
+#tmux new-session -s "wtable" "gpustat -i1"\; split-window "htop"\;\
+#	new-window -n "K5,E2  " "${CUDA}=0 SP=1000 ./Attack.py -D cuda -M sopE_res18 -A SPO:PGD-M5 -v -e ${e2}; sh"\;\
+#	new-window -n "K5,E4  " "${CUDA}=1 SP=1000 ./Attack.py -D cuda -M sopE_res18 -A SPO:PGD-M5 -v -e ${e4}; sh"\;\
+#	new-window -n "K5,E8  " "${CUDA}=2 SP=1000 ./Attack.py -D cuda -M sopE_res18 -A SPO:PGD-M5 -v -e ${e8}; sh"\;\
+#	new-window -n "K5,E16 " "${CUDA}=3 SP=1000 ./Attack.py -D cuda -M sopE_res18 -A SPO:PGD-M5 -v -e ${e16}; sh"\;\
+#	new-window -n "K10,E2 " "${CUDA}=0 SP=1000 ./Attack.py -D cuda -M sopE_res18 -A SPO:PGD-M10 -v -e ${e2}; sh"\;\
+#	new-window -n "K10,E4 " "${CUDA}=1 SP=1000 ./Attack.py -D cuda -M sopE_res18 -A SPO:PGD-M10 -v -e ${e4}; sh"\;\
+#	new-window -n "K10,E8 " "${CUDA}=2 SP=1000 ./Attack.py -D cuda -M sopE_res18 -A SPO:PGD-M10 -v -e ${e8}; sh"\;\
+#	new-window -n "K10,E16" "${CUDA}=3 SP=1000 ./Attack.py -D cuda -M sopE_res18 -A SPO:PGD-M10 -v -e ${e16}; sh"\;\
+#	new-window -n "K25,E2 " "${CUDA}=0 SP=1000 ./Attack.py -D cuda -M sopE_res18 -A SPO:PGD-M25 -v -e ${e2}; sh"\;\
+#	new-window -n "K25,E4 " "${CUDA}=1 SP=1000 ./Attack.py -D cuda -M sopE_res18 -A SPO:PGD-M25 -v -e ${e4}; sh"\;\
+#	new-window -n "K25,E8 " "${CUDA}=2 SP=1000 ./Attack.py -D cuda -M sopE_res18 -A SPO:PGD-M25 -v -e ${e8}; sh"\;\
+#	new-window -n "K25,E16" "${CUDA}=3 SP=1000 ./Attack.py -D cuda -M sopE_res18 -A SPO:PGD-M25 -v -e ${e16}; sh"\;\
+#	detach

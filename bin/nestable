@@ -1,0 +1,47 @@
+#!/bin/bash
+# Copyright (C) 2020-2021 Mo Zhou <cdluminate@gmail.com>
+# Released under the Apache-2.0 License.
+
+set -x
+unset $TMUX
+C="CUDA_VISIBLE_DEVICES"
+SH="bash"
+SC="bin/nes"
+tmux new-session -s "nestable" "gpustat -i1"\; split-window "htop"\;\
+	new-window -n "NES.5.-1.2"   "${C}=0 ${SH} ${SC} 5  -1 2 ; sh"\;\
+	new-window -n "NES.5.-1.4"   "${C}=0 ${SH} ${SC} 5  -1 4 ; sh"\;\
+	new-window -n "NES.5.-1.8"   "${C}=0 ${SH} ${SC} 5  -1 8 ; sh"\;\
+	new-window -n "NES.5.-1.16"  "${C}=0 ${SH} ${SC} 5  -1 16; sh"\;\
+	new-window -n "NES.10.-1.2"  "${C}=0 ${SH} ${SC} 10 -1 2 ; sh"\;\
+	new-window -n "NES.10.-1.4"  "${C}=0 ${SH} ${SC} 10 -1 4 ; sh"\;\
+	new-window -n "NES.10.-1.8"  "${C}=0 ${SH} ${SC} 10 -1 8 ; sh"\;\
+	new-window -n "NES.10.-1.16" "${C}=0 ${SH} ${SC} 10 -1 16; sh"\;\
+	new-window -n "NES.25.-1.2"  "${C}=0 ${SH} ${SC} 25 -1 2 ; sh"\;\
+	new-window -n "NES.25.-1.4"  "${C}=1 ${SH} ${SC} 25 -1 4 ; sh"\;\
+	new-window -n "NES.25.-1.8"  "${C}=1 ${SH} ${SC} 25 -1 8 ; sh"\;\
+	new-window -n "NES.25.-1.16" "${C}=1 ${SH} ${SC} 25 -1 16; sh"\;\
+	new-window -n "NES.5.50.2"   "${C}=1 ${SH} ${SC} 5  50 2 ; sh"\;\
+	new-window -n "NES.5.50.4"   "${C}=1 ${SH} ${SC} 5  50 4 ; sh"\;\
+	new-window -n "NES.5.50.8"   "${C}=1 ${SH} ${SC} 5  50 8 ; sh"\;\
+	new-window -n "NES.5.50.16"  "${C}=1 ${SH} ${SC} 5  50 16; sh"\;\
+	new-window -n "NES.10.50.2"  "${C}=1 ${SH} ${SC} 10 50 2 ; sh"\;\
+	new-window -n "NES.10.50.4"  "${C}=1 ${SH} ${SC} 10 50 4 ; sh"\;\
+	new-window -n "NES.10.50.8"  "${C}=2 ${SH} ${SC} 10 50 8 ; sh"\;\
+	new-window -n "NES.10.50.16" "${C}=2 ${SH} ${SC} 10 50 16; sh"\;\
+	new-window -n "NES.25.50.2"  "${C}=2 ${SH} ${SC} 25 50 2 ; sh"\;\
+	new-window -n "NES.25.50.4"  "${C}=2 ${SH} ${SC} 25 50 4 ; sh"\;\
+	new-window -n "NES.25.50.8"  "${C}=2 ${SH} ${SC} 25 50 8 ; sh"\;\
+	new-window -n "NES.25.50.16" "${C}=2 ${SH} ${SC} 25 50 16; sh"\;\
+	new-window -n "NES.5.5.2"    "${C}=2 ${SH} ${SC} 5   5 2 ; sh"\;\
+	new-window -n "NES.5.5.4"    "${C}=2 ${SH} ${SC} 5   5 4 ; sh"\;\
+	new-window -n "NES.5.5.8"    "${C}=2 ${SH} ${SC} 5   5 8 ; sh"\;\
+	new-window -n "NES.5.5.16"   "${C}=3 ${SH} ${SC} 5   5 16; sh"\;\
+	new-window -n "NES.10.10.2"  "${C}=3 ${SH} ${SC} 10 10 2 ; sh"\;\
+	new-window -n "NES.10.10.4"  "${C}=3 ${SH} ${SC} 10 10 4 ; sh"\;\
+	new-window -n "NES.10.10.8"  "${C}=3 ${SH} ${SC} 10 10 8 ; sh"\;\
+	new-window -n "NES.10.10.16" "${C}=3 ${SH} ${SC} 10 10 16; sh"\;\
+	new-window -n "NES.25.25.2"  "${C}=3 ${SH} ${SC} 25 25 2 ; sh"\;\
+	new-window -n "NES.25.25.4"  "${C}=3 ${SH} ${SC} 25 25 4 ; sh"\;\
+	new-window -n "NES.25.25.8"  "${C}=3 ${SH} ${SC} 25 25 8 ; sh"\;\
+	new-window -n "NES.25.25.16" "${C}=3 ${SH} ${SC} 25 25 16; sh"\;\
+	detach

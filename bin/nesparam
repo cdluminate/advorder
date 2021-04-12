@@ -1,0 +1,31 @@
+#!/bin/bash
+# Copyright (C) 2020-2021 Mo Zhou <cdluminate@gmail.com>
+# Released under the Apache-2.0 License.
+
+set -x
+unset $TMUX
+C="CUDA_VISIBLE_DEVICES"
+SH="bash"
+SC="bin/nes"
+export NES_NPOP=50
+export NES_XLR=2.0
+export NES_XSIGMA=0.25
+export NES_MOM=0.0
+
+tmux new-session -s "nesparam" "gpustat -i1"\; split-window "htop"\;\
+	new-window -n "NES_MOM=0.1"    "${C}=0 NES_MOM=0.1    ${SH} ${SC} 5 -1 4 ; sh"\;\
+	new-window -n "NES_MOM=0.3"    "${C}=1 NES_MOM=0.3    ${SH} ${SC} 5 -1 4 ; sh"\;\
+	new-window -n "NES_MOM=0.5"    "${C}=2 NES_MOM=0.5    ${SH} ${SC} 5 -1 4 ; sh"\;\
+	new-window -n "NES_MOM=0.9"    "${C}=3 NES_MOM=0.9    ${SH} ${SC} 5 -1 4 ; sh"\;\
+	new-window -n "NES_NPOP=24 "   "${C}=3 NES_NPOP=24    ${SH} ${SC} 5 -1 4 ; sh"\;\
+	new-window -n "NES_NPOP=40 "   "${C}=1 NES_NPOP=40    ${SH} ${SC} 5 -1 4 ; sh"\;\
+	new-window -n "NES_NPOP=50 "   "${C}=2 NES_NPOP=50    ${SH} ${SC} 5 -1 4 ; sh"\;\
+	new-window -n "NES_NPOP=100"   "${C}=3 NES_NPOP=100   ${SH} ${SC} 5 -1 4 ; sh"\;\
+	new-window -n "NES_XLR=2.0"    "${C}=2 NES_XLR=2.0    ${SH} ${SC} 5 -1 4 ; sh"\;\
+	new-window -n "NES_XLR=3.0"    "${C}=2 NES_XLR=3.0    ${SH} ${SC} 5 -1 4 ; sh"\;\
+	new-window -n "NES_XLR=4.0"    "${C}=1 NES_XLR=4.0    ${SH} ${SC} 5 -1 4 ; sh"\;\
+	new-window -n "NES_XLR=5.0"    "${C}=1 NES_XLR=5.0    ${SH} ${SC} 5 -1 4 ; sh"\;\
+	new-window -n "NES_XSIGMA=2"   "${C}=0 NES_XSIGMA=2   ${SH} ${SC} 5 -1 4 ; sh"\;\
+	new-window -n "NES_XSIGMA=1"   "${C}=1 NES_XSIGMA=1   ${SH} ${SC} 5 -1 4 ; sh"\;\
+	new-window -n "NES_XSIGMA=0.5" "${C}=2 NES_XSIGMA=0.5 ${SH} ${SC} 5 -1 4 ; sh"\;\
+	detach

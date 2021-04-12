@@ -1,0 +1,28 @@
+#!/bin/bash
+# Copyright (C) 2020-2021 Mo Zhou <cdluminate@gmail.com>
+# Released under the Apache-2.0 License.
+
+set -x
+unset $TMUX
+C="CUDA_VISIBLE_DEVICES"
+SH="bash"
+SC="bin/pso"
+export PSO_NPOP=40
+export PSO_OMEGA=1.10
+export PSO_PHIP=0.57
+export PSO_PHIG=0.44
+
+tmux new-session -s "psoparam" "gpustat -i1"\; split-window "htop"\;\
+	new-window -n "PSO_OMEGA=1.00" "${C}=0 PSO_OMEGA=1.00 ${SH} ${SC} 5 50 4 ; sh"\;\
+	new-window -n "PSO_OMEGA=1.10" "${C}=0 PSO_OMEGA=1.10 ${SH} ${SC} 5 50 4 ; sh"\;\
+	new-window -n "PSO_OMEGA=1.20" "${C}=0 PSO_OMEGA=1.20 ${SH} ${SC} 5 50 4 ; sh"\;\
+	new-window -n "PSO_PHIP=0.47 " "${C}=1 PSO_PHIP=0.47  ${SH} ${SC} 5 50 4 ; sh"\;\
+	new-window -n "PSO_PHIP=0.57 " "${C}=1 PSO_PHIP=0.57  ${SH} ${SC} 5 50 4 ; sh"\;\
+	new-window -n "PSO_PHIP=0.67 " "${C}=1 PSO_PHIP=0.67  ${SH} ${SC} 5 50 4 ; sh"\;\
+	new-window -n "PSO_PHIG=0.34 " "${C}=2 PSO_PHIG=0.34  ${SH} ${SC} 5 50 4 ; sh"\;\
+	new-window -n "PSO_PHIG=0.44 " "${C}=2 PSO_PHIG=0.44  ${SH} ${SC} 5 50 4 ; sh"\;\
+	new-window -n "PSO_PHIG=0.54 " "${C}=2 PSO_PHIG=0.54  ${SH} ${SC} 5 50 4 ; sh"\;\
+	new-window -n "PSO_NPOP=100  " "${C}=3 PSO_NPOP=100   ${SH} ${SC} 5 -1 4 ; sh"\;\
+	new-window -n "PSO_NPOP=50   " "${C}=3 PSO_NPOP=50    ${SH} ${SC} 5 -1 4 ; sh"\;\
+	new-window -n "PSO_NPOP=40   " "${C}=3 PSO_NPOP=40    ${SH} ${SC} 5 -1 4 ; sh"\;\
+	detach

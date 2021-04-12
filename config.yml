@@ -1,0 +1,69 @@
+# Copyright (C) 2020-2021 Mo Zhou <cdluminate@gmail.com>
+# Released under the Apache-2.0 License.
+
+# --- Dataset Meta Information ---
+fashion-mnist:
+    #t10k-images-idx3-ubyte.gz
+    #t10k-labels-idx1-ubyte.gz
+    #train-images-idx3-ubyte.gz
+    #train-labels-idx1-ubyte.gz
+    path: ~/.torch/FashionMNIST/raw/
+
+sop:
+    # Ebay_train.txt
+    # Ebay_test.txt
+    path: ~/.torch/Stanford_Online_Products/
+
+# -- fashion --
+
+faC_lenet:
+    epoch: 32
+    lr: 0.001
+    batchsize: 1000
+    batchsize_atk: 1000  # for white-box
+
+faC_res18:
+    epoch: 32
+    lr: 0.001
+    batchsize: 1000
+    batchsize_atk: 1000  # for white-box
+
+faC_c2f2:
+  epoch: 32
+  lr: 0.001
+  batchsize: 1000
+  batchsize_atk: 1000  # for white-box
+
+faE_c2f2:
+  epoch: 32
+  lr: 0.001
+  batchsize: 1000
+  batchsize_atk: 100  # for white-box
+
+# -- stanford online product
+#    http://cvgl.stanford.edu/projects/lifted_struct/
+
+sopE_res18:
+  epoch: 42
+  lr: 0.00001
+  batchsize: 128 # (bs=128 requires 11GB with Titan Xp)
+  batchsize_atk: 64  # (bs=64, titanxp 11167MB) for white-box
+
+sopE_res50:
+  epoch: 42
+  lr: 0.00001
+  # bs=128 requires 11GB*3 with Titan Xp (conjrhomb requires *6)
+  batchsize: 128 # (bs=64 requires 11GB*2 with Titan Xp)
+  batchsize_atk: 32  # for white-box
+
+sopE_dense121:
+  epoch: 42
+  lr: 0.00001
+  batchsize: 128 # (bs=128 requires 6~8 Cards, bs=64 requires 3~4cards)
+  batchsize_atk: 64
+
+sopE_mnas:
+  epoch: 42
+  lr: 0.00001
+  batchsize: 128 # (bs=64 requires 1 card, bs=128 consumes 2)
+  batchsize_atk: 128
