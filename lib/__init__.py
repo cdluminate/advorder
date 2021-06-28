@@ -22,3 +22,4 @@ from . import reorder
 
 # practical reorder attack
 from . import snapshop
+from . import bing

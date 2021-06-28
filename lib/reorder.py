@@ -364,7 +364,7 @@ def SPSA(model, query, rperm, *, eps=8./255., maxprobe=1e3,
     otopk = argsort[:len(rperm)]
     score0 = NearsightRankCorr(argsort, otopk, rperm)
     score = score0
-    aux = (score,)
+    aux = [score, 0]
     # init: SPSA params
     Npop = int(os.getenv('SS_NPOP', 50))
     # NOTE: you can change Npop to 48 when attacking JD SnapShop
@@ -436,6 +436,8 @@ def SPSA(model, query, rperm, *, eps=8./255., maxprobe=1e3,
                         colored(f'{scoretmp.max():.3f}', 'blue', None, ['bold'])]))
                 gbest = qx[scoretmp.argmax()].view(1, *qr.shape[1:]).clone().detach()
                 score = scoretmp.max()
+                # the iteration where the best score is reached
+                aux[1] = (iteration+1)*Npop
             if score > 0.99:
                 break
         if canseek < 0:

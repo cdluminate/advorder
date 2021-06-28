@@ -35,4 +35,7 @@ transfer:
 practical:
 	python3 PracticalOA.py -l lib/t8.png -Q 100
 jd:
-	python3 PracticalOA.py -Q 100 --randperm -k 10 -l $(python3 bin/randsop.py)
+	python3 PracticalOA.py --model JDModel -Q 100 --randperm -k 10 -l $(python3 bin/randsop.py)
+
+bing:
+	python3 PracticalOA.py --model BingModel -Q 100 --randperm -k 5 -l $(python3 bin/randsop.py) -e8

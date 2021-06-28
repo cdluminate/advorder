@@ -12,6 +12,8 @@ from termcolor import cprint, colored
 import statistics
 from PIL import Image
 from torchvision.transforms import functional as transfunc
+import rich
+c = rich.get_console()
 
 
 def PracticalAttack(argv):
@@ -29,8 +31,14 @@ def PracticalAttack(argv):
     0.015 ( 4/255) -> 3-of-top5 does not go out of sight
     0.008 ( 2/255) -> top5 within sight but not close to each other
     0.004 ( 1/255) -> quite good. (and cannot be lower)
+
+    For BingModel
+    1/255  -> topk very persistent
+    2/255  -> top3 very persistent
+    4/255  -> top1 starts to vary
+    8/255  -> looks appropriate.
     '''
-    ag.add_argument('-M', '--model', type=str, default='JDModel')
+    ag.add_argument('-M', '--model', type=str, choices=['JDModel', 'BingModel'])
     ag.add_argument('-v', '--verbose', action='store_true', help='verbose?')
     ag.add_argument('-Q', '--qbudget', type=int, default=500, help='query budget')
     ag.add_argument('-k', '--topk', type=int, default=5, help='generate permutation for topk')
@@ -43,6 +51,8 @@ def PracticalAttack(argv):
     cprint(json.dumps(vars(ag), indent=4), 'yellow')
 
     # Process the arguments
+    if ag.epsilon > 1.0:
+        ag.epsilon = ag.epsilon / 255.
     assert(ag.topk > 1)
 
     # Load the payload image
@@ -55,7 +65,12 @@ def PracticalAttack(argv):
 
     # Load the target model
     cprint(f'Setting up the "{ag.model}" Model')
-    model = getattr(lib.snapshop, ag.model)(canseek=ag.canseek)
+    if ag.model == 'JDModel':
+        model = getattr(lib.snapshop, ag.model)(canseek=ag.canseek)
+    elif ag.model == 'BingModel':
+        model = getattr(lib.bing, ag.model)(canseek=ag.canseek)
+    else:
+        raise ValueError('unsupported model')
     print(model)
 
     # Start attacking
@@ -84,7 +99,7 @@ def PracticalAttack(argv):
     #argsort, _ = model(query, id='final')
     #cprint(f'> FINAL TopK', 'red')
     #cprint(argsort.tolist(), 'cyan')
-    print(score)
+    c.print('Final score:', score)
 
 
 if __name__ == '__main__':

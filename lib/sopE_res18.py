@@ -83,18 +83,13 @@ class Model(rankingmodel.Model):
     def loss_adversary(self, x, y, *, eps=0.0, maxiter=10, hard=False):
         '''
         Train the network with a PGD adversary
+        This is the defense method used in ECCV2020 paper
+        M. Zhou, et al., "Adversarial Ranking Attack and Defense".
         '''
-        raise NotImplementedError("not updated")
         images = x.clone().detach().to(self.device).view(-1, 3, 224, 224)
         labels = y.to(self.device).view(-1)
         images_orig = images.clone().detach()
         images.requires_grad = True
-
-        # preparation
-        IMmean = th.tensor([0.485, 0.456, 0.406], device=self.device)
-        IMstd = th.tensor([0.229, 0.224, 0.225], device=self.device)
-        renorm = lambda im: im.sub(IMmean[:,None,None]).div(IMstd[:,None,None])
-        denorm = lambda im: im.mul(IMstd[:,None,None]).add(IMmean[:,None,None])
 
         # first evaluation
         with th.no_grad():
@@ -108,9 +103,8 @@ class Model(rankingmodel.Model):
 
         # PGD with/without random init?
         if int(os.getenv('RINIT', 0))>0:
-            images = images + (eps/IMstd[:,None,None])*2*(0.5-th.rand(images.shape)).to(images.device)
-            images = th.max(images, renorm(th.zeros(images.shape).to(device)))
-            images = th.min(images, renorm(th.ones(images.shape).to(device)))
+            images = images + eps*2*(0.5-th.rand(images.shape)).to(images.device)
+            images = th.clamp(images, min=0., max=1.)
             images = images.detach()
             images.requires_grad = True
 
@@ -143,14 +137,12 @@ class Model(rankingmodel.Model):
                 loss = -distance.sum()
             loss.backward()
 
-            # PGD for normalized images is a little bit special
-            images.grad.data.copy_((alpha/IMstd[:,None,None])*th.sign(images.grad))
+            # the update and projection
+            images.grad.data.copy_(alpha * th.sign(images.grad))
             optimx.step()
-            images = th.min(images, images_orig + (eps/IMstd[:,None,None]))
-            images = th.max(images, images_orig - (eps/IMstd[:,None,None]))
-            #images = th.clamp(images, min=0., max=1.)
-            images = th.max(images, renorm(th.zeros(images.shape).to(self.device)))
-            images = th.min(images, renorm(th.ones(images.shape).to(self.device)))
+            images = th.min(images, images_orig + eps)
+            images = th.max(images, images_orig - eps)
+            images = th.clamp(images, min=0., max=1.)
             images = images.clone().detach()
             images.requires_grad = True
             #print('> Internal PGD loop [', iteration, ']', 'loss=', loss.item())
@@ -160,25 +152,11 @@ class Model(rankingmodel.Model):
         images.requires_grad = False
 
         # forward the adversarial example
-        if False:
-            #== trip-es defense
-            _, loss_adv = self.loss(images_orig, labels)
-            if self.metric == 'C':
-                output = self.forward(images, l2norm=True)
-                raise NotImplementedError
-            elif self.metric == 'E':
-                output = self.forward(images, l2norm=False)
-                loss_es = th.nn.functional.pairwise_distance(output, output_orig_nodetach, p=2).mean()
-                loss_adv = loss_adv + 1.0 * loss_es
-            print('* Orig loss', '%.5f'%loss_orig.item(), '  |  ',
-                    '[Adv loss]', '%.5f'%loss_adv.item(), '\twhere loss_ES=', loss_es.item())
-            return output, loss_adv
-        else:
-            #== min(Trip(max(ES))) defense
-            output, loss_adv = self.loss(images, labels)
-            print('* Orig loss', '%.5f'%loss_orig.item(), '  |  ',
-                    '[Adv loss]', '%.5f'%loss_adv.item())
-            return output, loss_adv
+        #== min(Trip(max(ES))) defense
+        output, loss_adv = self.loss(images, labels)
+        print('* Orig loss', '%.5f'%loss_orig.item(), '  |  ',
+                '[Adv loss]', '%.5f'%loss_adv.item())
+        return output, loss_adv
 
     def report(self, epoch, iteration, total, output, labels, loss):
         pdistAP = th.nn.functional.pairwise_distance(output[0::3],output[1::3])

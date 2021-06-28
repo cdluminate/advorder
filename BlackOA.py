@@ -3,7 +3,7 @@
 Copyright (C) 2020-2021 Mo Zhou <cdluminate@gmail.com>
 Released under the Apache-2.0 License.
 '''
-import sys, os, yaml, re, json
+import sys, os, yaml, re, json, csv
 import numpy as np, torch as th
 from lib import reorder
 import lib
@@ -36,6 +36,7 @@ def BlackAttack(argv):
     ag.add_argument('-c', '--canseek', type=int, default=-1)
     ag.add_argument('-V', '--visualize', action='store_true')
     ag.add_argument('-P', '--parallel', type=int, default=1)
+    ag.add_argument('--scorelog', type=str, default='')
     ag.add_argument('--evaluate', action='store_true', help='evaluate recall performance before attacking')
     ag.add_argument('--vdist', action='store_true', help='show dist in vis result')
     ag.add_argument('--vinter', action='store_true', help='interactive vis mode')
@@ -73,8 +74,12 @@ def BlackAttack(argv):
     cprint(f'>_< Starting {ag.attack} Attack with Epsilon = {ag.epsilon:.3f}',
             'red', None, ['bold', 'underline'])
 
+    if ag.scorelog:
+        csvf = open(ag.scorelog, 'wt')
+        csvw = csv.writer(csvf, delimiter=' ')
     rt_scores, rt_mranks, rt_aux_scores = [], [], []
     for (i, pack) in enumerate(loader_test.dataset):
+        # traverse the whole test dataset, one-by-one.
         if i > ag.numquery:
             break
         query, label = pack[0].unsqueeze(0).to(ag.device), pack[1]
@@ -96,6 +101,9 @@ def BlackAttack(argv):
         argsort, dist = model(qr)
         cprint(f'|                 >', 'red', 'on_white', end=' ')
         print(f'argsort[:topk]={argsort[:len(rperm)].cpu()}')
+        if ag.scorelog:
+            # [num of query, score]
+            csvw.writerow([aux[1], score])
         rt_scores.append(score)
         rt_mranks.append(mrank)
         rt_aux_scores.append(aux[0])
@@ -239,6 +247,9 @@ def BlackAttack(argv):
     print('MEAN orig score', statistics.mean(rt_aux_scores))
     print('MEAN score', statistics.mean(rt_scores))
     print('MEAN mrank', statistics.mean(rt_mranks))
+
+    if ag.scorelog:
+        csvf.close()
 
 
 if __name__ == '__main__':

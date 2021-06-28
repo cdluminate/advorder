@@ -53,9 +53,10 @@ class Model(rankingmodel.Model):
     def loss_adversary(self, x, y, *, eps=0.0, maxiter=10, hard=False, marginC=0.2, marginE=1.0):
         '''
         Train the network with a PGD adversary
+        This is the defense method used in ECCV2020 paper
+        M. Zhou, et al., "Adversarial Ranking Attack and Defense".
         '''
-        raise NotImplementedError
-        images = x.to(self.fc1.weight.device)
+        images = x.view(-1, 1, 28, 28).to(self.fc1.weight.device)
         labels = y.to(self.fc1.weight.device).view(-1)
         images_orig = images.clone().detach()
         images.requires_grad = True
@@ -63,10 +64,8 @@ class Model(rankingmodel.Model):
         # first forwarding
         with th.no_grad():
             output, loss_orig = self.loss(images, labels)
-            if self.metric == 'C':
-                output /= output.norm(2, dim=1, keepdim=True).expand(*output.shape)
-            elif self.metric == 'E':
-                pass
+            if self.metric in ('C', 'N'):
+                output = th.nn.functional.normalize(output)
             output_orig = output.clone().detach()
             output_orig_nodetach = output
 
@@ -114,26 +113,11 @@ class Model(rankingmodel.Model):
         images.requires_grad = False
 
         # forward the adversarial example
-        if False:
-            #== trip-es loss
-            _, loss_adv = self.loss(images_orig, labels)
-            if self.metric == 'C':
-                output = self.forward(images, l2norm=True)
-                loss_es = (1 - th.mm(output, output_orig_nodetach.t())).trace() / output.size(0)
-                loss_adv = loss_adv + 1.0 * loss_es
-            elif self.metric == 'E':
-                output = self.forward(images, l2norm=False)
-                loss_es = th.nn.functional.pairwise_distance(output, output_orig_nodetach, p=2).mean()
-                loss_adv = loss_adv + 1.0 * loss_es  # very unstable
-            print('* Orig loss', '%.5f'%loss_orig.item(), '\t|\t',
-                    '[Adv loss]', '%.5f'%loss_adv.item(), '\twhere loss_ES=', loss_es.item())
-            return output, loss_adv
-        else:
-            #== min(Trip(max(ES(\tilde(a))))) loss
-            output, loss_adv = self.loss(images, labels)
-            print('* Orig loss', '%.5f'%loss_orig.item(), '\t|\t',
-                    '[Adv loss]', '%.5f'%loss_adv.item())
-            return output, loss_adv
+        #== min(Trip(max(ES(\tilde(a))))) loss
+        output, loss_adv = self.loss(images, labels)
+        print('* Orig loss', '%.5f'%loss_orig.item(), '\t|\t',
+                '[Adv loss]', '%.5f'%loss_adv.item())
+        return output, loss_adv
 
     def report(self, epoch, iteration, total, output, labels, loss):
         #X = output / output.norm(2, dim=1, keepdim=True).expand(*(output.shape))
