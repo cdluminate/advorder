@@ -23,6 +23,9 @@
 | 4.2.5  | (black box) SPSA on SOP              | `bash bin/spsa 5 50 4`                   |
 
 The syntax of the `bin/*` black-box attack commands is `bin/<algorithm> k N varepsilon*255`.
+This project is forked from the codebase of my ECCV 2020 work ["Adversarial Ranking Attack and Defense"](https://github.com/cdluminate/advrank).
+And the command for training defensive model is more or less the same. Some functionalities
+used by ECCV 2020 but not used in the ICCV 2021 paper are simply invalidated with, e.g., `raise NotImplementedError`.
 
 Hint: `export USE_CPP_KERNEL=1` can significantly speed up the black-box attack experiments.
 
