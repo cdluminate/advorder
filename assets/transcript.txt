@@ -1,0 +1,33 @@
+Hi everyone, this is a short presentation on the iccv 2021 paper
+"practical relative order attack in deep ranking".
+
+The corresponding preprint is avaiable on arxiv, and the code is avaialble on github.
+
+Now let's look at the background. deep ranking is based on deep metric learning.
+and previous works suggest that these models are vulnerable to adversarial attacks,
+where the ranking result can be drammatically changed.
+
+however, the previous attacks only focus on changing the absolute rank, namely
+the absolute positions of the selected candidates, while neglecting the possibility
+to change the relative order among the selected candidates.
+
+in this paper, we propose order attack to manipulate the relative order.
+
+specifically, a triplet-style loss function is proposed for the white-box order attack.
+
+and for black-box order attack, a short-range ranking correlation is proposed as
+a surrogate objective to approximate the triplet-style formulation.
+
+so, what is order attack?
+
+Assume we have a query image as the input to the deep ranking model, and the
+top-5 candidates in the ranking reuslt is a, b, c, d, e.
+
+then the attacker can specify a descired permutation for the five candidates,
+and apply order attack to change their relative order into, for example,
+a, e, d, c, b.
+
+In applications such as online shopping based on search-by-image, order
+attack could impact the click-through rate and hence influence the sales.
+
+1:45
