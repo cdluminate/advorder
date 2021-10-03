@@ -1,7 +1,12 @@
 # AdvOrder: Practical Relative Order Attack
 
 **Paper Title:** Practical Relative Order Attack in Deep Ranking, ICCV'2021  
-**Preprint Link:** https://arxiv.org/abs/2103.05248
+**Preprint Link:** https://arxiv.org/abs/2103.05248  
+**Poster:** https://github.com/cdluminate/advorder/blob/main/assets/advorder-poster.pdf  
+**Slides:** https://github.com/cdluminate/advorder/blob/main/assets/slides.pdf  
+**Bilibili:** https://www.bilibili.com/video/BV1Af4y1J7PD/  
+**Youtube:** https://www.youtube.com/watch?v=1fEDNPACpAA  
+
 
 ## General Usage
 
