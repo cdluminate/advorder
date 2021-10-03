@@ -1,33 +1,99 @@
-Hi everyone, this is a short presentation on the iccv 2021 paper
-"practical relative order attack in deep ranking".
+Hi everyone, this is a short presentation on the iccv 2021 paper "practical
+relative order attack in deep ranking".
 
-The corresponding preprint is avaiable on arxiv, and the code is avaialble on github.
-
-Now let's look at the background. deep ranking is based on deep metric learning.
-and previous works suggest that these models are vulnerable to adversarial attacks,
-where the ranking result can be drammatically changed.
+deep ranking is based on deep metric learning.  and previous works show that
+these models are vulnerable to adversarial attacks.  the ranking result can be
+drammatically changed.
 
 however, the previous attacks only focus on changing the absolute rank, namely
-the absolute positions of the selected candidates, while neglecting the possibility
-to change the relative order among the selected candidates.
+the absolute positions of the selected candidates, while neglecting the
+possibility to change the relative order among the selected candidates.
 
 in this paper, we propose order attack to manipulate the relative order.
 
-specifically, a triplet-style loss function is proposed for the white-box order attack.
-
-and for black-box order attack, a short-range ranking correlation is proposed as
-a surrogate objective to approximate the triplet-style formulation.
+specifically, we propose a triplet-style loss function for white-box order
+attack, and a short-range ranking correlation as surrogate objective for
+black-box order attack.
 
 so, what is order attack?
 
-Assume we have a query image as the input to the deep ranking model, and the
-top-5 candidates in the ranking reuslt is a, b, c, d, e.
+Assume we have a query image, and the top-5 candidates in the ranking reuslt is
+a, b, c, d, e.
 
 then the attacker can specify a descired permutation for the five candidates,
-and apply order attack to change their relative order into, for example,
-a, e, d, c, b.
+and conduct order attack to change their relative order into, for example, a,
+e, d, c, b.
 
-In applications such as online shopping based on search-by-image, order
-attack could impact the click-through rate and hence influence the sales.
+In applications such as online shopping based on search-by-image, order attack
+could impact the click-through rate and hence influence the sales.
 
-1:45
+1:20
+
+for white box order attack, we select a set of candidates, and we want to find
+a perturbation that leads to a specified permutation.
+
+The permutation can be converted into an ineuqality chain, which can be further
+decomposed into a series of inequalities.
+
+and the inequalities can be reformulated into a series of triplet loss
+functions.
+
+these loss function can be optimized through existing optimization methods such
+as projected gradient descent.
+
+to validate the effectiveness of the white-box order attack, we conduct
+experiments on fashion-mnist dataset and stanford oneline product dataset.
+
+for example, when we choose five candidates from the top part of the ranking
+list, and set the perturbation budget to four over two hundred and fifty five,
+our attack achieves a kendall's ranking correlation of zero point four one two
+on fashion-mnist, and zero point four four eight on stanford online product.
+
+this means the relative order is basically aligned with the specified one.
+
++ 1:10
+
+for black-box order attack, the triplet-style loss function is infeaisble
+because the graidnet is inaccessible.
+
+to this end, we propose a short range ranking correlation, which measures the
+alignment between the specified permutation and the acutal ranking result. a
+high value indicates a good alignment.
+
+It can be used as a surrogate objective to approximate the triplet-style loss
+function.  black-box optimizers such as NES can be used to optimize it.
+
+now we conduct black-box attack experiment on the fashion-mnist dataset with
+five different black-box optimizers.
+
+the results show that our proposed black-box order attack is effective.
+
+with five selected candidates and a perturbation budget of four over two
+hundred and fifity five, a kendall ranking correlation of zero point four one
+six can be achieved without making the ranking result abnormal.
+
+similarly, our black-box attack is also effective on the stanford oneline
+products dataset.
+
++1:10
+
+now we show case some examples of pracitcal attack against a major e-commerce
+platform, namely Jingdong snapshop
+
+with the query image, the top-5 results are product a, b, c, d, e.  but with an
+adversarially perturbed query image, the relative order among them becomes a,
+e, d, c, b.
+
+here are more qualitative results.
+
+and quantitative results. our black-box attack is effective in practical
+scenarios.
+
+we also tried the attack on miscrosoft bing visual search api.
+
+ok thank you for watching.
+
+The corresponding preprint is avaiable on arxiv, and the code is avaialble on
+github.
+
++0:45
