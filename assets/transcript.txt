@@ -10,17 +10,14 @@ the absolute positions of the selected candidates, while neglecting the
 possibility to change the relative order among the selected candidates.
 
 in this paper, we propose order attack to manipulate the relative order.
-
 specifically, we propose a triplet-style loss function for white-box order
 attack, and a short-range ranking correlation as surrogate objective for
 black-box order attack.
 
 so, what is order attack?
-
 Assume we have a query image, and the top-5 candidates in the ranking reuslt is
 a, b, c, d, e.
-
-then the attacker can specify a descired permutation for the five candidates,
+then the attacker can specify a desired permutation for the five candidates,
 and conduct order attack to change their relative order into, for example, a,
 e, d, c, b.
 
@@ -48,7 +45,6 @@ for example, when we choose five candidates from the top part of the ranking
 list, and set the perturbation budget to four over two hundred and fifty five,
 our attack achieves a kendall's ranking correlation of zero point four one two
 on fashion-mnist, and zero point four four eight on stanford online product.
-
 this means the relative order is basically aligned with the specified one.
 
 + 1:10
@@ -67,7 +63,6 @@ now we conduct black-box attack experiment on the fashion-mnist dataset with
 five different black-box optimizers.
 
 the results show that our proposed black-box order attack is effective.
-
 with five selected candidates and a perturbation budget of four over two
 hundred and fifity five, a kendall ranking correlation of zero point four one
 six can be achieved without making the ranking result abnormal.
@@ -92,7 +87,6 @@ scenarios.
 we also tried the attack on miscrosoft bing visual search api.
 
 ok thank you for watching.
-
 The corresponding preprint is avaiable on arxiv, and the code is avaialble on
 github.
 
