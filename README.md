@@ -117,6 +117,19 @@ Rustc   1.48.0
 Linux   5.10
 ```
 
+### Bibtex
+
+```
+@InProceedings{advorder,
+    author    = {Zhou, Mo and Wang, Le and Niu, Zhenxing and Zhang, Qilin and Xu, Yinghui and Zheng, Nanning and Hua, Gang},
+    title     = {Practical Relative Order Attack in Deep Ranking},
+    booktitle = {Proceedings of the IEEE/CVF International Conference on Computer Vision (ICCV)},
+    month     = {October},
+    year      = {2021},
+    pages     = {16413-16422}
+}
+```
+
 ### License Info
 
 ```
